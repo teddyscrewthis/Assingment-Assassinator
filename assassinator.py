@@ -59,6 +59,7 @@ def random_name():
     random_username = random.choice(usernames)
 
     return random_username
+sess = requests.session()
 
 #-------------------Interface Code-----------------------------#
 
@@ -134,5 +135,59 @@ class Kahoot:
             t = threading.Thread(target=Kahoot.flooder(pin))
             t.start()
            
+class Kahoot :
+    
+    #https://github.com/darkzacee/skip-edpuzzle-hack/blob/4da1eb9d650f8681bae3da05d52a051de1368983/skip-hack.js <---- Inspo and code guide
+    
+    def getAttempt():
+        
+        headers_one = {
+        "accept": "application/json, text/plain, */*",
+        "accept-language": "en-US,en;q=0.9",
+        "cache-control": "no-cache",
+        "pragma": "no-cache",
+        "sec-fetch-dest": "empty",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-origin",
+        "x-chrome-version": "85",
+        "x-csrf-token": "",
+        "x-edpuzzle-referrer": f"https://edpuzzle.com/assignments/{assignmentId}/watch",
+        "x-edpuzzle-web-version": "",
+        "referrer": "https://edpuzzle.com/",
+        "referrerPolicy": "strict-origin",
+        "body": null,
+        "method": "GET",
+        "mode": "cors",
+        "credentials": "include"
+        }
+        
+        headers_two = {
+            
+            "accept": "application/json, text/plain, */*",
+            "accept-language": "en-US,en;q=0.9",
+            "cache-control": "no-cache",
+            "content-type": "application/json",
+            "pragma": "no-cache",
+            "sec-fetch-dest": "empty",
+            "sec-fetch-mode": "cors",
+            "sec-fetch-site": "same-origin",
+            "x-chrome-version": "85",
+            "x-csrf-token": "",
+            "x-edpuzzle-referrer": f"https://edpuzzle.com/assignments/{assignmentId}/watch",
+            "x-edpuzzle-web-version": "",
+            "referrer": "https://edpuzzle.com/",
+            "referrerPolicy": "strict-origin",
+            "body": `{\"timeIntervalNumber\":${i}}`,
+            "method": "POST",
+            "mode": "cors",
+            "credentials": "include"
+        }
+            
+        
+        sess.get(f"https://edpuzzle.com/api/v3/assignments/{assignmentId}/attempt", headers=headers_one)
+        sess.get(f"https://edpuzzle.com/api/v4/media_attempts/{id}/watch", headers=headers_two)
+        
+        
+        
 if __name__ == "__main__":
     welcome()
